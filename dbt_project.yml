@@ -35,8 +35,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+vars:
+  city: 'Nice'
+  dbt_dq_tool_schema: AUDIT
 models:
-  my_new_project:
-    # Applies to all files under models/example/
-    example:
-      +materialized: table
+ 
+  +pre-hook:
+    - "insert into {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_SCHEMA','AUDIT')}}.dbt_models_execution_log ( modelname, starttime, endtime,duration) select '{{ this }}', current_timestamp(), null, null;"
+ 
+  +post-hook:
+    - "update {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_SCHEMA','AUDIT')}}.dbt_models_execution_log  set endtime = current_timestamp(), duration = datediff('second', starttime, current_timestamp()) where starttime=(select max(starttime) from {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_SCHEMA','AUDIT')}}.dbt_models_execution_log where modelname = '{{this}}') and modelname = '{{this}}';"
+    
+on-run-start: "grant usage on schema qbt.audit to role accountadmin"
+#on-run-end: "grant select on table qbt.audit.dbt_models_execution_log to role accountadmin"
+on-run-end:
+  - '{{ dq_tools.store_test_results(results) }}'

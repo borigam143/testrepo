@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "{{ doc('customers') }}"
+    columns:
+      - name: customerid
+        description: "{{ doc('customerid') }}"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_products
+    description: "{{ doc('products') }}"
+    columns:
+      - name: productid
+        description: "{{ doc('productid') }}"
+        tests:
+          - unique
+          #- not_null
+          - dq_tools.unique_where_db
+              
+  - name: stg_shipments
+    columns:
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['shipped','returned','ordered']
+      - name: employeeid
+        tests:
+          - employeeid_check
+  - name: stg_orders
+    columns: 
+      - name: customerid
+        description: to check foreign key relation ship of column
+        tests:
+          - relationships:
+              field: customerid
+              to: ref('stg_customers')
+      - name: productid
+        description: to check even number and range limit of column data
+        tests:
+          - is_even
+          - range
+
+              
