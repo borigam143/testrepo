@@ -1,4 +1,4 @@
-{{ config(materialized='table',schema="env_var('DBT_TRANSFORMDB','TRANSFORMING')") }}
+{{ config(materialized='table',schema=env_var('DBT_TRANSFORMDB','TRANSFORMING')) }}
 
 select ProductID,
 ProductName,
