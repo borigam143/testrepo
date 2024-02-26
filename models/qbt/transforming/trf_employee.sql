@@ -1,4 +1,4 @@
-{{ config(materialized='table',schema='transforming',sql_header='use warehouse DATALOAD;') }}
+{{ config(materialized='table',schema="env_var('DBT_TRANSFORMDB','TRANSFORMING')",sql_header='use warehouse DATALOAD;') }}
 
 select 
 e.empid,e.firstname,e.lastname,e.title,replace(e.hiredate,'-','/')::date as hiredate,o.officecity

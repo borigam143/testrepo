@@ -1,4 +1,4 @@
-{{ config(materialized='table',schema='transforming',sql_header='use warehouse DATALOAD;') }}
+{{ config(materialized='table',schema="env_var('DBT_TRANSFORMDB','TRANSFORMING')",sql_header='use warehouse DATALOAD;') }}
 
 select customerid,
 companyname,
