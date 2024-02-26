@@ -1,0 +1,15 @@
+version: 2
+
+exposures:
+  - name: qwt-sales-dashboard
+    type: dashboard
+    maturity: high
+    url: https://www.google.com
+
+    depends_on:
+      - ref('fact_orders')
+      - ref('dim_customers')
+      - ref('dim_products')
+    owner:
+        name: jane from analytics
+        email: 1234@gmail.com

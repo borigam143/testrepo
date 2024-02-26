@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_qbt
+    database: env_var('DBT_SOURCEDB','QBT')
+    schema: env_var('DBT_SOURCESCHEMA','RAW')
+    tables:
+    -  name: orders
