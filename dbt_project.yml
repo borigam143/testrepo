@@ -46,7 +46,7 @@ models:
     - "insert into {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_AUDITDB','AUDIT')}}.dbt_models_execution_log ( modelname, starttime, endtime,duration) select '{{ this }}', current_timestamp(), null, null;"
  
   +post-hook:
-    - "update {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_AUDITDB','AUDIT')}}.dbt_models_execution_log  set endtime = current_timestamp(), duration = datediff('second', starttime, current_timestamp()) where starttime=(select max(starttime) from {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_AUDITDB','AUDIT')}}.dbt_models_execution_log where modelname = '{{this}}') and modelname = '{{this}}';"
+    - "update {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_AUDITDB','AUDIT')}}.dbt_models_execution_log  set endtime = current_timestamp(), duration = datediff('second', starttime, current_timestamp()) where starttime=(select max(starttime) from {{env_var('DBT_SOURCEDB','QBT')}}.{{env_var('DBT_AUDITDB','AUDIT')}}.dbt_models_execution_log  where modelname = '{{this}}') and modelname = '{{this}}';"
     
 on-run-start: "grant usage on schema qbt.audit to role accountadmin"
 #on-run-end: "grant select on table qbt.audit.dbt_models_execution_log to role accountadmin"
