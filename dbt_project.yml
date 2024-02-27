@@ -38,6 +38,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 vars:
   city: 'Nice'
   dbt_dq_tool_schema: AUDIT
+snapshots:
+  +target_schema: "{{ env_var('DBT_SNAPSCHEMA', 'SNAPSHOTS') }}"
 models:
  
   +pre-hook:
