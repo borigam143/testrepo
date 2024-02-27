@@ -7,7 +7,7 @@ orderid,
 sum(case when lineno={{lineno}} then linesalesamount end) as line{{lineno}}_amount,
 {% endfor %}
 
-sum(linesalesamount) as totalsales
+sum(linesalesamount1) as totalsales
 
 from {{ref("trf_orderdetails")}}
 group by 1
