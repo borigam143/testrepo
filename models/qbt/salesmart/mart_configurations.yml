@@ -1,0 +1,7 @@
+version: 2
+ 
+models:
+ 
+  - name: dim_employee_py
+    config:
+      schema: "{{ env_var('DBT_SALESMART', 'SALESMART') }}"

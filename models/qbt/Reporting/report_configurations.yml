@@ -1,0 +1,7 @@
+version: 2
+ 
+models:
+ 
+  - name: customers_orders_totals
+    config:
+      schema: "{{ env_var('DBT_REPORTSCHEMA', 'REPORTING') }}"
