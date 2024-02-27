@@ -4,7 +4,7 @@
 select 
 orderid,
 {% for lineno in linenos %}
-sum(case when lineno={{lineno}} then linesalesamount end) as line{{lineno}}_amount,
+sum(case when lineno={{lineno}} then linesalesamount1 end) as line{{lineno}}_amount,
 {% endfor %}
 
 sum(linesalesamount1) as totalsales
